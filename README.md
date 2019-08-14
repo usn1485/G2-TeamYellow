@@ -1,5 +1,5 @@
 # G2-TeamYellow
-Project 2 - HTML, CSS, Bootstrap, Leaflet, D3.js, Mongo
+Project 2 - HTML, CSS, Bootstrap, Leaflet,Python, Flask  D3.js, Mongo
 
 Question to Answer: Are the blood lead level concentrations higher in children living in Missouri counties where there are lead Mines present than children not living in counties where there are lead mines. 
 
