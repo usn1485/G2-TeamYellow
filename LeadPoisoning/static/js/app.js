@@ -1,95 +1,97 @@
-function buildGeoJsonMap(sample) {
+// @TODO: YOUR CODE HERE!
+// Store width and height parameters to be used in later in the canvas
+var svgWidth = 900;
+var svgHeight = 600;
 
-    // @TODO: Complete the following function that builds the metadata panel
-  
-        // Use`d 3.json` to fetch the metadata for a sample
-      d3.json(`/metadata/${sample}`).then((metadata) => {
-      // Use d3 to select the panel with id of `#sample-metadata`
-      var PANEL= d3.select('#sample-metadata');
-      // Use `.html("") to clear any existing metadata
-      PANEL.html("");    
-      //debugger
-      // Use `Object.entries` to add each key and value pair to the panel
-      Object.entries(metadata).forEach(([key, value]) => {
-        
-          PANEL.append("h6").text(`${key}:${value}`);                         
-                  
-           });
-           
-    
-    });}
+// Set svg margins 
+var margin = {
+  top: 40,
+  right: 40,
+  bottom: 80,
+  left: 90
+};
+
+// Create the width and height based svg margins and parameters to fit chart group within the canvas
+var width = svgWidth - margin.left - margin.right;
+var height = svgHeight - margin.top - margin.bottom;
+
+var svg = d3.select("#bar")
+  .append("svg")
+  .attr("width", svgWidth)
+  .attr("height", svgHeight)
+
+
+
   //******************************************************
-  function buildCharts(sample) {
-     console.log("buildchart function triggered")
-    // @TODO: Use `d3.json` to fetch the sample data for the plots
-      
-        var url= `/samples/${sample}`;
-        console.log("url is "+ url);
   
-       // @TODO: Build a Bubble Chart using the sample data
-        d3.json(url).then(function(response){
-          var trace = {
-            type: "Scatter",
-            name: "Belly Button Bubble Chart",
-            x: response.otu_ids,
-            y: response.sample_values,
-            //title: '<b>OTU ID</b>',
-            mode:'markers',
-            marker:{
-              color:response.otu_ids,
-              size:response.sample_values
-             },          
-            hovertext:response.otu_labels
-            
-          };
-          // debugger
-          var data = [trace];
-      
-          var layout = {
-            //title: "Belly Button Diversity Bubble Chart",
-            
-          };
-      
-          Plotly.newPlot("bubble", data, layout);
-      
-        });
-  
-      // @TODO: Build a Pie Chart
-        d3.json(url).then(function(response){
-        var trace={
-         lables:response.otu_ids.slice(0,10),
-         values:response.sample_values.slice(0,10),
-         type: 'pie',
-         hovertext:response.otu_labels
-        };
-        
-        data=[trace]
-        Plotly.newPlot('pie', data);
-  
-        });
-      // HINT: You will need to use slice() to grab the top 10 sample_values,
-      // otu_ids, and labels (10 each).
-  
-  }
+  //  d3.json('/barGraph'), function(error,data) {
+  //         if(error) throw error;
+  //         console.log("I am in bar graph d3");
+  //         data.forEach(function(d){
+  //            d.prct_chldrn_confirbill_5ugdl =+ d.prct_chldrn_confirbill_5ugdl;
+  //         });
+
+  //      }
+
+  // var xBandScale = d3.scaleBand()
+  //   .domain(data.map(d => d.state ))
+  //   .range([0, chartWidth])
+  //   .padding(0.1);
+
+  // Create a linear scale for the vertical axis.
+  // var yLinearScale = d3.scaleLinear()
+  //   .domain([0, d3.max(data, d => d.prct_chldrn_confirbill_5ugdl)])
+  //   .range([chartHeight, 0]);
+
+  // Create two new functions passing our scales in as arguments
+  // These will be used to create the chart's axes
+  // var bottomAxis = d3.axisBottom(xBandScale);
+  // var leftAxis = d3.axisLeft(yLinearScale).ticks(10);
+
+  // Append two SVG group elements to the chartGroup area,
+  // and create the bottom and left axes inside of them
+  // chartGroup.append("g")
+  //   .call(leftAxis);
+
+  // chartGroup.append("g")
+  //   .attr("transform", `translate(0, ${chartHeight})`)
+  //   .call(bottomAxis);
+
+  // Create one SVG rectangle per piece of tvData
+  // Use the linear and band scales to position each rectangle within the chart
+  // chartGroup.selectAll(".bar")
+  //   .data(data)
+  //   .enter()
+  //   .append("rect")
+  //   .attr("class", "bar")
+  //   .attr("x", d => xBandScale(d.state))
+  //   .attr("y", d => yLinearScale(d.prct_chldrn_confirbill_5ugdl))
+  //   .attr("width", xBandScale.bandwidth())
+  //   .attr("height", d => chartHeight - yLinearScale(d.prct_chldrn_confirbill_5ugdl));
   
   function init() {
     // Grab a reference to the dropdown select element
     var selector = d3.select("#selDataset");
   
     // Use the list of sample names to populate the select options
-    d3.json("/names").then((sampleNames) => {
-      sampleNames.forEach((sample) => {
+    d3.json("/year").then((CountiyNames) => {
+
+      console.log(CountiyNames)
+
+      return
+
+      CountiyNames.forEach((county) => {
         selector
           .append("option")
-          .text(sample)
-          .property("value", sample);
+          .text(county)
+          .property("value", county);
       });
   
       // Use the first sample from the list to build the initial plots
-      const firstSample = sampleNames[0];
-      console.log(firstSample);
-      buildCharts(firstSample);
-      buildMetadata(firstSample);
+      const firstSelector = CountiyNames[0];
+      console.log(firstSelector);
+      buildCharts(firstSelector);
+      buildMetadata(firstSelector);
     });
   }
   
