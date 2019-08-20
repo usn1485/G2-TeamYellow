@@ -31,22 +31,32 @@ def getMongoData(query):
      print("getmongodata",data)
      return data
 
-@app.route("/states")
-def getTopStates():
-#    MoData= mongo.db.AllStates.aggregate([
-                #      { $match: { "state": "Missouri" } }
-                #    ]);
-    topstates = mongo.db.AllStates.find(
-        {"prct_chldrn_confirbill_5ugdl":{ "$gt": "3" }}
-        ,{"state":1,"prct_chldrn_confirbill_5ugdl":1,"PRCT_chldrn_confirbill_10ugdl":1},
-        {'_id': False}).limit(10)
-    data = []
-    for doc in topstates:
-        data.append(doc)
-    print(data)
+@app.route("/states/<year>")
+def getTopStates(year):
+#find bll for missouri for a given year
+
+    missouri_lead_level_data = getMongoData({"state":"Missouri","year":year})
+    top_ten_lead_level_resp=mongo.db.AllStates.find({'state':{'$ne':"Missouri"},'year':year},{'_id':False}).sort([("prct_chldrn_confirbill_5ugdl",-1)]).limit(10)
     
-    return jsonify(filter(None, data))
+    combined_data = []
+    combined_data.append(missouri_lead_level_data[0])
+    #combined_data.append(top_ten_lead_level_data)
+    for doc in top_ten_lead_level_resp:
+        combined_data.append(doc)
     
+    return jsonify(combined_data)
+
+    # top_ten_lead_level_data = []
+    # for doc in top_ten_lead_level_resp:
+    #     top_ten_lead_level_data.append(doc)
+    
+
+    # response = {
+    #     'Missouri' : missouri_lead_level_data[0],
+    #     'OtherTopTenStates':  top_ten_lead_level_data   
+    # }
+    
+    # return jsonify(response)
     # First sort all the docs by BLL 5mg
     
 

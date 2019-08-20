@@ -2,82 +2,60 @@
 function buildBarGraph(year){
     console.log("BuildGraph function triggerred")
 
-      var url=`/years/${year}`;
+      var url=`/states/${year}`;
       console.log("url is"+url);
       
       d3.json(url).then(function(response){
-        var trace = {
-          type:"Bar",
-          name:"Blood Lead level Comaparison of Missouri Vs other states",
-          x:response.states,
-          y:response.bloodleadlevel,
+        console.log(response)
+        console.log('All States', response.map(stateData => stateData.state))
+        console.log('All States: chldrn_confirbill_5ugdl', response.map(stateData => stateData.chldrn_confirbill_5ugdl))
 
+        // var trace1 = {
+        //   x: response.map(stateData => stateData.state),
+        //   y: response.map(stateData => stateData.chldrn_confirbill_5ugdl),
+        //   type: "bar"
+        // };
+        
+        // var data = [trace1];
+        
+        // var layout = {
+        //   title: "'Bar' Chart"
+        // };
+  
+        // Plotly.newPlot("bar", data, layout);
+        var trace1 = {
+          x: response.map(stateData => stateData.state),
+          y: response.map(stateData => stateData.chldrn_confirbill_5ugdl),
+          name: '5Mg',
+          type: 'bar'
         };
-         
-
+        
+        var trace2 = {
+          x: response.map(stateData => stateData.state),
+          y: response.map(stateData => stateData.chldrn_confirbill_10ugdl),
+          name: '10Mg',
+          type: 'bar'
+        };
+        
+        var data = [trace1, trace2];
+        
+        var layout = {barmode: 'stack'};
+        
+        Plotly.newPlot('bar', data, layout);
+       
 
       })
 
 
 }
 
-
-
-
-  //******************************************************
-  
-  //  d3.json('/barGraph'), function(error,data) {
-  //         if(error) throw error;
-  //         console.log("I am in bar graph d3");
-  //         data.forEach(function(d){
-  //            d.prct_chldrn_confirbill_5ugdl =+ d.prct_chldrn_confirbill_5ugdl;
-  //         });
-
-  //      }
-
-  // var xBandScale = d3.scaleBand()
-  //   .domain(data.map(d => d.state ))
-  //   .range([0, chartWidth])
-  //   .padding(0.1);
-
-  // Create a linear scale for the vertical axis.
-  // var yLinearScale = d3.scaleLinear()
-  //   .domain([0, d3.max(data, d => d.prct_chldrn_confirbill_5ugdl)])
-  //   .range([chartHeight, 0]);
-
-  // Create two new functions passing our scales in as arguments
-  // These will be used to create the chart's axes
-  // var bottomAxis = d3.axisBottom(xBandScale);
-  // var leftAxis = d3.axisLeft(yLinearScale).ticks(10);
-
-  // Append two SVG group elements to the chartGroup area,
-  // and create the bottom and left axes inside of them
-  // chartGroup.append("g")
-  //   .call(leftAxis);
-
-  // chartGroup.append("g")
-  //   .attr("transform", `translate(0, ${chartHeight})`)
-  //   .call(bottomAxis);
-
-  // Create one SVG rectangle per piece of tvData
-  // Use the linear and band scales to position each rectangle within the chart
-  // chartGroup.selectAll(".bar")
-  //   .data(data)
-  //   .enter()
-  //   .append("rect")
-  //   .attr("class", "bar")
-  //   .attr("x", d => xBandScale(d.state))
-  //   .attr("y", d => yLinearScale(d.prct_chldrn_confirbill_5ugdl))
-  //   .attr("width", xBandScale.bandwidth())
-  //   .attr("height", d => chartHeight - yLinearScale(d.prct_chldrn_confirbill_5ugdl));
-  
   function init() {
     // Grab a reference to the dropdown select element
     var selector = d3.select("#selDataset");
   
     // Use the list of sample names to populate the select options
     d3.json("/years").then((yearData) => {
-        console.log("Inside init() d3.json")
+        console.log("Inside init() d3.json", yearData)
         yearData.forEach((year)=>{
           selector
           .append("option")
