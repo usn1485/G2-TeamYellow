@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Lead Poisoning in kids</title>
+  <title>Flask Plotlyjs Example</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 
@@ -14,73 +14,41 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
-        <h1>Lead Poisoning in kids</h1>
-        <p>Blood Lead Level Analysis in children's from Missouri.</p>
+        <h1>Lead Poisoning Dashboard</h1>
+        <p>The Missouris Lead Poisoning in kids Data visualizaton</p>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12  col-md-9">
-          <div class="row">
-              <div class="col-md-2">
-                <div class="well">
-                  <h5>SELECT county:</h5>
-                  <select id="selDataset" onchange="optionChanged(this.value)"></select>
-                </div>
-              </div>
-          </div>
-          <div class="col-md-10">
-              <div id="bar">
-              
-          <!-- We append our chart here. -->
-              </div>
-        </div>
-      </div>
+       <div class="col-md-10">
+         <div class="GeoJson">
+         <img src="https://schwanksta.com/media/images/quakes4.png">
+
+         </div>
+
+       </div>
     </div>
-    
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Sample BLL Data</h3>
-          </div>
-          <div id="sample-metadata" class="panel-body"></div>
-        </div>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="well">
+          <h5>SELECT Year:</h5>
+          <select id="selDataset" onchange="optionChanged(this.value)"></select>
+        </div>       
       </div>
-      <div class="col-md-5">
-        <div class="container text-center">
-          <h1 class="jumbotron">Counties</h1>
-          <div>
-            <!-- write a for loop that lists out your data and accesses the values using dot notation. -->
-              {% for county in data %}
-              <div class="col-lg-4">
-                  <div class="card" style="width: 20rem;">
-                      <div class="card-body">
-                        <h4 class="card-title">name:{{ county.CountyName  }}</h4>
-                        
-                      </div>
-                    </div>
-                </div>
-                {% endfor %}
-    
-          </div>
-        </div>
-    
+      <div class="col-md-10">
+        <div id="bar"></div>
       </div>
-      <div class="col-md-5">
-        <div id="gauge" style="width: 400px; height: 480px;" ></div>
       </div>
-    </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
-      <div id="bubble"></div>
+    <div class="col-md-10">
+      <div id="ThirdChart"></div>
     </div>
   </div>
 
   <!-- <script src="https://cdn.plot.ly/plotly-1.31.2.min.js"></script> -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!--<script src="{{ url_for('static', filename='js/bonus.js') }}"></script>-->
- <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 

@@ -1,24 +1,26 @@
-// @TODO: YOUR CODE HERE!
-// Store width and height parameters to be used in later in the canvas
-var svgWidth = 900;
-var svgHeight = 600;
 
-// Set svg margins 
-var margin = {
-  top: 40,
-  right: 40,
-  bottom: 80,
-  left: 90
-};
+function buildBarGraph(year){
+    console.log("BuildGraph function triggerred")
 
-// Create the width and height based svg margins and parameters to fit chart group within the canvas
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
+      var url=`/years/${year}`;
+      console.log("url is"+url);
+      
+      d3.json(url).then(function(response){
+        var trace = {
+          type:"Bar",
+          name:"Blood Lead level Comaparison of Missouri Vs other states",
+          x:response.states,
+          y:response.bloodleadlevel,
 
-var svg = d3.select("#bar")
-  .append("svg")
-  .attr("width", svgWidth)
-  .attr("height", svgHeight)
+        };
+         
+
+
+      })
+
+
+}
+
 
 
 
@@ -74,32 +76,26 @@ var svg = d3.select("#bar")
     var selector = d3.select("#selDataset");
   
     // Use the list of sample names to populate the select options
-    d3.json("/year").then((CountiyNames) => {
-
-      console.log(CountiyNames)
-
-      return
-
-      CountiyNames.forEach((county) => {
-        selector
+    d3.json("/years").then((yearData) => {
+        console.log("Inside init() d3.json")
+        yearData.forEach((year)=>{
+          selector
           .append("option")
-          .text(county)
-          .property("value", county);
-      });
+          .text(year)
+          .property("value", year);
+        });
   
-      // Use the first sample from the list to build the initial plots
-      const firstSelector = CountiyNames[0];
-      console.log(firstSelector);
-      buildCharts(firstSelector);
-      buildMetadata(firstSelector);
+      // Use the first year from the list to build the initial graph
+      const firstYear = yearData[0];
+      console.log(firstYear);
+      buildBarGraph(firstYear);
     });
   }
   
-  function optionChanged(newSample) {
-    // Fetch new data each time a new sample is selected
-    console.log("New Data selected");
-    buildCharts(newSample);
-    buildGeoJsonMap(newSample);
+  function optionChanged(year) {
+    // Fetch new data each time a new year is selected
+    console.log("New year selected");
+   buildBarGraph(year);
   }
   
   // Initialize the dashboard
