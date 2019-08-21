@@ -1,6 +1,7 @@
 from flask import Flask, render_template,redirect,jsonify
 from flask_pymongo import PyMongo
 import sys
+import json
 
 app = Flask(__name__)
 
@@ -13,8 +14,17 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
     print("I am on index.html")
-   
     return render_template("index.html")
+
+@app.route("/timelineMap")
+def getTimelineMap():
+    geo_json_file=open("static/data/MO_2018_County_Boundaries.geojson")
+    geo_json_data=(json.load(geo_json_file))
+    return jsonify(geo_json_data)
+
+
+
+
 
 @app.route("/years")
 def getAllYears():
@@ -31,12 +41,18 @@ def getMongoData(query):
      print("getmongodata",data)
      return data
 
+@app.route("/mines")
+def getActiveMines():
+    minesData= mongo.db.minesData.find({"mine_status":"Active"},{'_id': False})
+    return jsonify(list(minesData))
+
 @app.route("/states/<year>")
 def getTopStates(year):
 #find bll for missouri for a given year
 
     missouri_lead_level_data = getMongoData({"state":"Missouri","year":year})
-    top_ten_lead_level_resp=mongo.db.AllStates.find({'state':{'$ne':"Missouri"},'year':year},{'_id':False}).sort([("prct_chldrn_confirbill_5ugdl",-1)]).limit(10)
+    top_ten_lead_level_resp=mongo.db.AllStates.find({'state':{'$ne':"Missouri"},'year':year},\
+        {'_id':False}).sort([("prct_chldrn_confirbill_5ugdl",-1)]).limit(10)
     
     combined_data = []
     combined_data.append(missouri_lead_level_data[0])
@@ -45,20 +61,6 @@ def getTopStates(year):
         combined_data.append(doc)
     
     return jsonify(combined_data)
-
-    # top_ten_lead_level_data = []
-    # for doc in top_ten_lead_level_resp:
-    #     top_ten_lead_level_data.append(doc)
-    
-
-    # response = {
-    #     'Missouri' : missouri_lead_level_data[0],
-    #     'OtherTopTenStates':  top_ten_lead_level_data   
-    # }
-    
-    # return jsonify(response)
-    # First sort all the docs by BLL 5mg
-    
 
 @app.route("/years/<year>")
 def getLeadLevelsForYear(year):
