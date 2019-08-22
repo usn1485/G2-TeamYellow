@@ -1,7 +1,7 @@
 // Creating map object
 var map = L.map("map", {
     center: [38.367965698,-92.477882385],
-    zoom: 11
+    zoom: 8
   });
   
   // Adding tile layer
@@ -21,4 +21,4 @@ var map = L.map("map", {
   });
 
     // Initialize the dashboard
-    init();
+   // init();

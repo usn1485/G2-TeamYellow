@@ -23,9 +23,6 @@ def getTimelineMap():
     return jsonify(geo_json_data)
 
 
-
-
-
 @app.route("/years")
 def getAllYears():
     #Mongo query to get unique years from the document
@@ -40,6 +37,16 @@ def getMongoData(query):
         data.append(doc)
      print("getmongodata",data)
      return data
+
+@app.route("/years/<year>")
+def getLeadDataByCounties(year):
+    query = { "year" : year }
+   # data = getMongoData(query)
+    lead_data_by_county = mongo.db.leadData.find(query, {'_id': False})
+    data = []
+    for doc in lead_data_by_county:
+        data.append(doc)
+    return jsonify(data)
 
 @app.route("/mines")
 def getActiveMines():

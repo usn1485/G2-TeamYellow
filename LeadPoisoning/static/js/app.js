@@ -8,18 +8,28 @@ function buildBarGraph(year){
         console.log(response)
         console.log('All States', response.map(stateData => stateData.state))
         console.log('All States: chldrn_confirbill_5ugdl', response.map(stateData => stateData.chldrn_confirbill_5ugdl))
-        
+        colors = ['lightslategray',] * 11
+        colors[0] = 'crimson'
+        color= ['red',]*11
+        color[0]='blue'
+      
         var trace1 = {
           x: response.map(stateData => stateData.state),
           y: response.map(stateData => stateData.chldrn_confirbill_5ugdl),
           name: '5 Microgram/dl',
-          type: 'bar'
+          type: 'bar',
+          marker:{
+            color: colors
+          }
         };        
         var trace2 = {
           x: response.map(stateData => stateData.state),
           y: response.map(stateData => stateData.chldrn_confirbill_10ugdl),
           name: '10 Microgram/dl',
-          type: 'bar'
+          type: 'bar',
+          marker:{
+            color: color
+          }
         };        
         var data = [trace1, trace2];
         
@@ -29,19 +39,33 @@ function buildBarGraph(year){
       })
 }
 
-//  function fetchJSON(url) {
-//     return fetch(url)
-//       .then(function(response) {
-//         return response.json();
-//       });
-//   }
+function getColor(feature) {
+  return feature.properties['lead_level'] > 5 ? 'red' : 'blue';
+}
 
-  function buildGeoJsonMap(url){   
+function getStyle(feature) {
+	return {
+		fillColor: getColor(feature),
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		dashArray: '3',
+		fillOpacity: 0.7
+	};
+}
+
+const lead_data = [ {
+  "HOWELL": { lead_level: 1, percent: 5}
+}]
+
+var geoJsonData = null;
+
+  function buildGeoJsonMap(){   
   //fetch('http://localhost:8080/posts', { mode: 'no-cors' });
     // Creating map object
   var map = L.map("map", {
-      center: [38.367965698,-92.477882385],
-      zoom: 11
+      center: [38.582138, -92.178877],
+      zoom: 6
     });
     
     // Adding tile layer
@@ -51,11 +75,16 @@ function buildBarGraph(year){
       id: "mapbox.streets",
       accessToken: API_KEY
     }).addTo(map);    
-    //var datafromurl= fetchJSON(url);
+   
     // Grabbing our GeoJSON data..  
-    D3.json("/timelineMap").then(function(data) {
+    d3.json("/timelineMap").then(function(data) {
       // Creating a GeoJSON layer with the retrieved data
-      L.geoJson(data).addTo(map);
+      geoJsonData = data;
+      geoJsonData.features.forEach(feature => {
+        feature.properties['lead_level'] = lead_data[feature.properties.NAME_UCASE]
+      })
+
+      L.geoJson(geoJsonData, {style: getStyle}).addTo(map);
     });
 
  }
@@ -78,6 +107,8 @@ function buildBarGraph(year){
       const firstYear = yearData[0];
       console.log(firstYear);
       buildBarGraph(firstYear);
+
+    
 
      // var link = "https://opendata.arcgis.com/datasets/8b9e118f12fd41228aceec02b5e71888_0.geojson"
       //"https://opendata.arcgis.com/datasets/7bdfd2d7880c4a52b765cc1e7192cee8_1.geojsonhttp://data.beta.nyc//dataset/0ff93d2d-90ba-457c-9f7e-39e47bf2ac5f/resource/" +
