@@ -28,20 +28,26 @@
     <div class="row">
       <div class="col-md-12 jumbotron text-center">
         <h1>Lead Poisoning Dashboard</h1>
-        <p>The Missouris Lead Poisoning in kids Data visualizaton</p>
+        <p>The Lead Poisoning in Missouri kid's Data visualizaton</p>
       </div>
     </div>
     <div class="row">
-       <div class="col-md-10">
+       <div class="col-md-12" style="padding:3px; margin-bottom:25px; background-color:#eee; ">
          <!-- map div -->
-          <div class="border" id="map" style="height: 500px"></div>
-
+         <h3>Lead Poisoning in kids under 6 years, across Missouri counties.</h3>
+          <div class="col-md-8 geojsonmap" id="map" style="height:500px;"></div>
+          <div class="col-md-4 geojsonmap" id="map-text">
+            <h3> Lead Poisoning Report for 2017</h3>
+            <h5> The number of Missouri’s children less than six years old who have been tested for lead
+              poisoning has increased from <b style="font-size: 30px">50,362</b> in 2000 to <b style="font-size: 30px">85,617</b>  in Fiscal Year <b style="font-size: 25px">2017.</b> </h5>
+          </div>
+         
        </div>
     </div>
-    <div class="row">
+    <div class="row" style="background-color:#eee;">
       <div class="col-md-2">
-        <div class="well">
-          <h5>SELECT YEAR:</h5>
+        <div class="well" style="background-color:gray; margin-top:50px;">
+          <h5 style="color:white">SELECT YEAR:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>       
       </div>
@@ -63,11 +69,11 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <!--<script src="{{ url_for('static', filename='js/app.js') }}"></script> -->
+  <script src="{{ url_for('static', filename='js/logic.js') }}"></script> 
   <!--<script type="text/javascript" src="static/js/heatmap.js"></script> -->
    <!-- Leaflet heatmap plugin-->
    <!--<script type="text/javascript" src="static/js/leaflet-heat.js"></script>-->
-
+  
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 

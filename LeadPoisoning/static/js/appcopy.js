@@ -55,9 +55,6 @@ function getStyle(feature) {
 	};
 }
 
-const lead_data = [ {
-  "HOWELL": { lead_level: 6 , percent: 5}
-}]
 
 var geoJsonData = null;
 
