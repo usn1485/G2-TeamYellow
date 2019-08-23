@@ -38,16 +38,22 @@ def getMongoData(query):
      print("getmongodata",data)
      return data
 
-@app.route("/years/<year>")
+@app.route("/counties/<year>")
 def getLeadDataByCounties(year):
+  try:
     query = { "year" : year }
-   # data = getMongoData(query)
-    lead_data_by_county = mongo.db.leadData.find(query, {'_id': False})
+    # data = getMongoData(query)
+    county_lead_data = mongo.db.leadData.find(query, {'_id': False})
     data = []
-    for doc in lead_data_by_county:
+   
+    for doc in county_lead_data:
         data.append(doc)
+        # print(data[0])
     return jsonify(data)
-
+  except OSError:
+        print(OSError)
+         
+ 
 @app.route("/mines")
 def getActiveMines():
     minesData= mongo.db.minesData.find({"mine_status":"Active"},{'_id': False})
@@ -55,7 +61,7 @@ def getActiveMines():
 
 @app.route("/states/<year>")
 def getTopStates(year):
-#find bll for missouri for a given year
+    #find bll of missouri for a given year
 
     missouri_lead_level_data = getMongoData({"state":"Missouri","year":year})
     top_ten_lead_level_resp=mongo.db.AllStates.find({'state':{'$ne':"Missouri"},'year':year},\
@@ -72,27 +78,13 @@ def getTopStates(year):
 @app.route("/years/<year>")
 def getLeadLevelsForYear(year):
     query = { "year" : year }
-   # data = getMongoData(query)
     bllByStateData = mongo.db.AllStates.find(query, {'_id': False})
-    #bllByStateData = mongo.db.AllStates.find(query, {'_id': False,"state":1,"PRCT_chldrn_confirbill_10ugdl":1}).limit(10)
+  
     data = []
     for doc in bllByStateData:
         data.append(doc)
     
     return jsonify(data)
-
-# @app.route("/year")
-# def getYear():
-#     print(" I am in get year Method")
-#     myquery={"prct_chldrn_confirbill_5ugdl":{ "$gt": "3" }}
-#     bllByStateData = mongo.db.AllStates.find(myquery, {'_id': False})
-#     #for yearData in bllByStateData.find({},{"year":1,"prct_chldrn_confirbill_5ugdl":1,"PRCT_chldrn_confirbill_10ugdl":1,"state":1}):
-    
-#     data = []
-#     for doc in bllByStateData:
-#         data.append(doc)
-    
-#     return jsonify(data)
 
 if __name__ == "__main__":
     app.run(debug=True)

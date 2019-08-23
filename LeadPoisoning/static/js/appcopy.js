@@ -73,7 +73,7 @@ function getLeadData(year){
 }
 
 
-//const keyBy = (array, key) => (array || []).reduce((r, x) => ({ ...r, [key ? x[key] : x]: x }), {});
+const keyBy = (array, key) => (array || []).reduce((r, x) => ({ ...r, [key ? x[key] : x]: x }), {});
 
 
 //
@@ -99,18 +99,21 @@ function getLeadData(year){
     d3.json("/timelineMap").then(function(data) {
       // Creating a GeoJSON layer with the retrieved data
       geoJsonData = data;
-      console.log(geoJsonData)
       var lead_data_url = `/counties/${year}`;
 
       d3.json(lead_data_url).then(function(lead_data_response){
-          console.log(lead_data_response.FIPS)  
 
-      for( var i=0, i<geoJsonData.length, i++){
+        const fipsToLeadDataMap = keyBy(lead_data_response.map(row => {
+          row.FIPS = row.FIPS.padStart(3, '0') 
+          return row
+        }), 'FIPS')
+        console.log("fipsToLeadDataMap",fipsToLeadDataMap)
+
+        geoJsonData.features.forEach(feature => {
+          const county_lead = fipsToLeadDataMap[feature.properties.COUNTYFIPS]  
+          feature.properties = { ...feature.properties, ...county_lead}
+        })
         
-
-      }
-          
-               
         // console.log("All counties", data.map(countyData=>countyData.county_name))
 
         L.geoJson(geoJsonData, 
@@ -143,7 +146,9 @@ function getLeadData(year){
         }
         }).addTo(map);
   
-      }); 
+      });
+
+ 
 
     });
 
