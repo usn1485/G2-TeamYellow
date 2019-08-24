@@ -58,7 +58,7 @@ return {
   opacity: 1,
   color: 'white',
   dashArray: '3',
-  fillOpacity: 0.8
+  fillOpacity: 0.5
 };
 }
 var geoJsonData = null;
@@ -133,9 +133,7 @@ function buildGeoJsonMap(year){
     id: "mapbox.streets",
     accessToken: API_KEY
   }).addTo(map);
-  
-
- 
+   
   // Grabbing our GeoJSON data..  
   d3.json("/timelineMap").then(function(data) {
     // Creating a GeoJSON layer with the retrieved data
@@ -171,7 +169,7 @@ function buildGeoJsonMap(year){
           mouseout: function(event) {
             layer = event.target;
             layer.setStyle({
-              fillOpacity: 0.8
+              fillOpacity: 0.5
             });
           },
           
@@ -180,10 +178,9 @@ function buildGeoJsonMap(year){
        
         //Reynolds
         // Giving each feature a pop-up with information pertinent to it
-        layer.bindPopup(`<h3> ${feature.properties.county_name} </h3> <hr> <h4>
-         ${feature.properties.total_chldn_tested} </h4> <hr> <h4>
-         ${feature.properties.confirmed_BLLS_Grtrthan5Mg} </h4> <hr> <h4> 
-         Lead In Air - ${airLead} </h4>`);
+        layer.bindPopup(`<h4> ${feature.properties.county_name} </h4> <hr> <h5> Kids tested for BLL
+         ${feature.properties.total_chldn_tested} </h5> <hr> <h5> confrmd BLL > 5mg
+         ${feature.properties.confirmed_BLLS_Grtrthan5Mg} </h5>`);
 
          addMinesLayer(map)
   
@@ -278,12 +275,12 @@ function buildMinesMap(){
       // Put onEachFeature within the options object, not as 3rd argument.
       onEachFeature: function(feature, layer) {
         const airLead = feature.properties.LEAD_IN_AIR ? feature.properties.LEAD_IN_AIR.LEAD : 'Not Tested'
-        layer.bindPopup("<h5>"+feature.properties.COUNTYNAME + "</h5> <hr> <h6>" + feature.properties.LEAD +" </h6> <hr> <h6> 
-        + "Lead In Air - "+feature.properties.LEAD_IN_AIR +"</h6>");
+        layer.bindPopup("<h5>"+feature.properties.COUNTYNAME + "</h5> <hr> <h6>" + feature.properties.LEAD);
       }
     }).addTo(myMap)});
   
   }
+  // +  " </h6> <hr> <h6> Lead In Air - "+feature.properties.LEAD_IN_AIR +"</h6>"
 
 function init() {
   // Grab a reference to the dropdown select element
