@@ -2,7 +2,7 @@
 // Set the longitude, latitude, and the starting zoom level
 var myMap = L.map("map2", {
   center: [38.5767, -92.1735],
-  zoom: 8
+  zoom: 7.5
 });
 
 
@@ -65,14 +65,43 @@ mine4.bindPopup("<h1>Fletcher Mine and MIll</h1>");
 mine5.bindPopup("<h1>Sweetwater Mine and Mill</h1>");
 mine6.bindPopup("<h1>Vilburnum #29 Mine</h1>");
 
-var link = "https://opendata.arcgis.com/datasets/aa3f9fa2b9764dcd95605d01065ae5cc_0.geojson";
+// var link = "https://opendata.arcgis.com/datasets/aa3f9fa2b9764dcd95605d01065ae5cc_0.geojson";
 
 // d3.json(link, function(data) {
 //   // Creating a GeoJSON layer with the retrieved data
 //   L.geoJson(data).addTo(myMap);
 // });
 
-d3.json(link, function(data) {
+// d3.json(link, function(data) {
+//   //   // Creating a GeoJSON layer with the retrieved data
+//   L.geoJson(data, {
+//     style: function(feature) {
+//       return {
+//         "color": "#78c679",
+//         "weight": 5,
+//         "opacity": 0.9
+//       }
+//     },
+//     // Put onEachFeature within the options object, not as 3rd argument.
+//     var schools  = onEachFeature: function(feature, layer) {
+//       layer.bindPopup("<h1>"+feature.properties.Facility + "</h> <hr> <h1>" + feature.properties.City + "</h1>");
+//     }
+//   }/*, { // Original position (as 3rd argument) of onEachFeature.
+//     onEachFeature: function(feature, layer) {
+//       layer.bindPopup(feature.properties.type);
+//     }
+//   }*/).addTo(myMap)});
+
+  
+
+  var link2 = "https://opendata.arcgis.com/datasets/c2e5681518cb4ec6bbfde185dcafdeb8_0.geojson";
+
+//   d3.json(link2, function(data) {
+//     //   // Creating a GeoJSON layer with the retrieved data
+//       L.geoJson(data).addTo(myMap);
+//     });
+
+d3.json(link2, function(data) {
   //   // Creating a GeoJSON layer with the retrieved data
   L.geoJson(data, {
     style: function(feature) {
@@ -84,10 +113,11 @@ d3.json(link, function(data) {
     },
     // Put onEachFeature within the options object, not as 3rd argument.
     onEachFeature: function(feature, layer) {
-      layer.bindPopup("<h1>"+feature.properties.Facility + "</h> <hr> <h1>" + feature.properties.City + "</h1>");
+      layer.bindPopup("<h1>"+feature.properties.COUNTYNAME + "</h> <hr> <h1>" + feature.properties.LEAD + "</h1>");
     }
   }/*, { // Original position (as 3rd argument) of onEachFeature.
     onEachFeature: function(feature, layer) {
       layer.bindPopup(feature.properties.type);
     }
   }*/).addTo(myMap)});
+
