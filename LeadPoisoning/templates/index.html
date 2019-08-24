@@ -32,36 +32,38 @@
       </div>
     </div>
     <div class="row">
-       <div class="col-md-12" style="padding:3px; margin-bottom:25px; background-color:#eee; ">
+       <div class="col-md-12" style="padding:3px;  background-color:#eee; ">
          <!-- map div -->
          <h3>Lead Poisoning in kids under 6 years, across Missouri counties.</h3>
           <div class="col-md-8 geojsonmap" id="map" style="height:500px;"></div>
           <div class="col-md-4 geojsonmap" id="map-text">
             <h3> Lead Poisoning Report for 2017</h3>
-            <h5> The number of Missouri’s children less than six years old who have been tested for lead
-              poisoning has increased from <b style="font-size: 30px">50,362</b> in 2000 to <b style="font-size: 30px">85,617</b>  in Fiscal Year <b style="font-size: 25px">2017.</b> </h5>
+            <h4> The number of Missouri’s children less than six years old who have been tested for lead
+              poisoning has increased from <b style="font-size: 30px">50,362</b> in 2000 to <b style="font-size: 30px">85,617</b>  in Fiscal Year <b style="font-size: 25px">2017.</b> </h4>
           </div>
          
        </div>
     </div>
-    <div class="row" style="background-color:#eee;">
-      <div class="col-md-2">
+    <div class="row" style="background-color:#eee; margin-top:30px; ">
+      <div class="col-md-2"  >
         <div class="well" style="background-color:gray; margin-top:50px;">
           <h5 style="color:white">SELECT YEAR:</h5>
           <select id="selDataset" onchange="optionChanged(this.value)"></select>
         </div>       
       </div>
       <div class="col-md-10">
+        <h3> Missouri lead Levels vs other top 10 states</h3>
         <div id="bar"></div>
       </div>
-      </div>
-  </div>
-  <div class="row">
-    <div class="col-md-10">
-      <div id="ThirdChart"></div>
     </div>
+    <div class="row"style="margin-top:30px; margin-bottom:30px;background-color:#eee;" >
+     <div class="col-md-10 justify-content-center">
+       <h3>Air Qaulity and Lead Mines map</h3>
+      <div id="map2" style="height: 500px"></div>
+    </div>
+    <div class="col-md-2" ></div>
   </div>
-
+  </div>
   <!-- API key -->
   <script type="text/javascript" src="static/js/config.js"></script>
 
@@ -69,12 +71,16 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="{{ url_for('static', filename='js/logic.js') }}"></script> 
+  <!--<script src="{{ url_for('static', filename='js/logic.js') }}"></script> -->
   <!--<script type="text/javascript" src="static/js/heatmap.js"></script> -->
    <!-- Leaflet heatmap plugin-->
    <!--<script type="text/javascript" src="static/js/leaflet-heat.js"></script>-->
   
   <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
-
+<footer class="footer">
+    <div class="container">
+      <span class="text-muted"> Lead Poisoning report</span>
+    </div>
+  </footer>
 </html>

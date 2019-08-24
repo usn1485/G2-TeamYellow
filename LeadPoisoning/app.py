@@ -16,9 +16,16 @@ def index():
     print("I am on index.html")
     return render_template("index.html")
 
+@app.route("/airquality")
+def getAirQualityData():
+    geo_json_file=open("static/data/MO_2018_Air_Quality_Standards.geojson")
+    geo_json_data=(json.load(geo_json_file))
+    return jsonify(geo_json_data)
+   
+
 @app.route("/timelineMap")
 def getTimelineMap():
-    geo_json_file=open("static/data/MO_2018_County_Boundaries.geojson")
+    geo_json_file=open("static/data/MO_2018_County_Boundaries_with_air_in_lead_flag.geojson")
     geo_json_data=(json.load(geo_json_file))
     return jsonify(geo_json_data)
 
