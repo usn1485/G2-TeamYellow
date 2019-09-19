@@ -1,4 +1,4 @@
-### Lead Poisoning in Missouri kids Analysis.###
+### Lead Poisoning in Missouri kids Analysis.
 
 **Purpose**: 
 
