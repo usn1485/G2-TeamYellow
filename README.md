@@ -1,4 +1,4 @@
-### Lead Poisoning in Missouri kids Analysis.
+### Lead Poisoning in Missouri kids Analysis.###
 
 **Purpose**: 
 
@@ -69,19 +69,19 @@ def getLeadLevelsForYear(year):
 
 1. Find counties with high risk of Blood Lead Levels (BLL) in kids under 6 years5 micrograms minimum risk level for poisoning
 
-![BLL Project 2](BLL Project 2.jpg)
+![](Images/BLLonMap.jpg)
 
 
 
 2. Compare Missouri BLL to top 10 BLL states in US (2012-2017)
 
-   ![BLL Project 2 (1)](BLL Project 2 (1).jpg)
+   ![](Images/TopTenBLLStates.jpg)
 
 
 
 3.Whether kids staying near lead mine areas have higher chance of receiving high BLL
 
-![BLL Project 2 (2)](BLL Project 2 (2).jpg)
+![](Images/BLLInAir.jpg)
 
 
 
